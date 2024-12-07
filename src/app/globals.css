@@ -89,10 +89,6 @@ body {
 
 /* Basic editor styles */
 .tiptap {
-  :first-child {
-    margin-top: 0;
-  }
-
   /* Basic editor styles */
   img {
     display: block;
