@@ -1,22 +1,48 @@
 "use client";
 import useEditorStore from "@/app/store/use-editor-store";
 import { cn } from "@/lib/utils";
-import { LucideIcon, Undo2Icon } from "lucide-react";
+import {
+  LucideIcon,
+  PrinterIcon,
+  Redo2Icon,
+  SpellCheckIcon,
+  Undo2Icon,
+} from "lucide-react";
 
 const Toolbar = () => {
   const { editor } = useEditorStore();
   const sections: {
     label: string;
     icon: LucideIcon;
-    onClick: () => void;
-    isActive: boolean;
+    onClick?: () => void;
+    isActive?: boolean;
   }[][] = [
     [
       {
         label: "Undo",
         icon: Undo2Icon,
         onClick: () => editor?.chain().focus().undo().run(),
-        isActive: false,
+      },
+      {
+        label: "Redo",
+        icon: Redo2Icon,
+        onClick: () => editor?.chain().focus().redo().run(),
+      },
+      {
+        label: "Print",
+        icon: PrinterIcon,
+        onClick: () => window.print(),
+      },
+      {
+        label: "Spell Check",
+        icon: SpellCheckIcon,
+        onClick: () => {
+          const current = editor?.view.dom.getAttribute("spellcheck");
+          editor?.view.dom.setAttribute(
+            "spellcheck",
+            current === "false" ? "true" : "false",
+          );
+        },
       },
     ],
   ];
@@ -32,8 +58,8 @@ const Toolbar = () => {
 export default Toolbar;
 
 interface ToolbarButtonProps {
-  onClick: () => void;
-  isActive: boolean;
+  onClick?: () => void;
+  isActive?: boolean;
   icon: LucideIcon;
 }
 
