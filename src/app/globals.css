@@ -131,6 +131,7 @@ body {
 
     .selectedCell:after {
       background-color: #959596;
+      opacity: 50%;
       content: "";
       left: 0;
       right: 0;
