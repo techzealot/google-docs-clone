@@ -3,6 +3,7 @@ import useEditorStore from "@/app/store/use-editor-store";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -14,6 +15,8 @@ import {
   ChevronDownIcon,
   HighlighterIcon,
   ItalicIcon,
+  Link2Icon,
+  LinkIcon,
   ListTodoIcon,
   LucideIcon,
   MessageSquarePlusIcon,
@@ -24,6 +27,9 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const Toolbar = () => {
   const { editor } = useEditorStore();
@@ -120,7 +126,7 @@ const Toolbar = () => {
       <TextColorButton />
       <HighlightColorButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* TODO: link */}
+      <LinkButton />
       {/* TODO: Image */}
       {/* TODO: Align */}
       {/* TODO: Line Height */}
@@ -341,6 +347,39 @@ const HighlightColorButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-0">
         <SketchPicker color={value} onChange={onChange} />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const LinkButton = () => {
+  const { editor } = useEditorStore();
+  const [value, setValue] = useState(editor?.getAttributes("link").href || "");
+  const onChange = (href: string) => {
+    editor?.commands.setLink({ href });
+    setValue("");
+  };
+
+  return (
+    <DropdownMenu
+      onOpenChange={(open) => {
+        if (open) setValue(editor?.getAttributes("link").href || "");
+      }}
+    >
+      <DropdownMenuTrigger asChild>
+        <button className="flex h-7 min-w-7 shrink-0 flex-col items-center justify-center overflow-x-hidden rounded-sm px-1.5 text-sm hover:bg-neutral-200/80">
+          <Link2Icon className="size-4" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="flex items-center justify-center gap-2 p-2.5">
+        <Input
+          placeholder="https://example.com"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button size="sm" onClick={() => onChange(value)}>
+          Apply
+        </Button>
       </DropdownMenuContent>
     </DropdownMenu>
   );

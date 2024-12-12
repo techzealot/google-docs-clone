@@ -15,6 +15,7 @@ import ImageResize from "tiptap-extension-resize-image";
 import useEditorStore from "@/app/store/use-editor-store";
 import { Color } from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -58,6 +59,11 @@ const Editor = () => {
       TableRow,
       TableHeader,
       TableCell,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+      }),
       StarterKit,
       FontFamily,
       TextStyle,
